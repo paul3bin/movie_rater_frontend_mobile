@@ -19,10 +19,12 @@ function MovieList() {
       <FlatList 
         data={movies}
         renderItem={({item}) => (
-            <View>
-              <Text key={item.id}>{item.title}</Text>
+            <View style={styles.item}>
+              <Text key={item.id} style={styles.itemTitle}>{item.title}</Text>
             </View>
         )}
+        // providing another property for the flatlist.
+        // specifying what would be the item id for the item.
         keyExtractor={(item, index) => index.toString()}
       />
     </View>
@@ -32,9 +34,19 @@ function MovieList() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffa',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#282C35',
+    // alignItems: 'center',
+    // justifyContent: 'center',
+  },
+  item: {
+    flex: 1,
+    padding: 10,
+    height: 50,
+    backgroundColor: '#282C35',
+  },
+  itemTitle: {
+    color: '#fff',
+    fontSize: 24, 
   },
 });
 
