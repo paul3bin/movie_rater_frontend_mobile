@@ -1,12 +1,12 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faFilm } from '@fortawesome/free-solid-svg-icons'
 
 import { API } from '../api_service'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-function MovieList() {
+function MovieList(props) {
   
   const [movies, setMovies] = useState([]);
   
@@ -15,6 +15,10 @@ function MovieList() {
     .then(resp => setMovies(resp))
     .catch(error => console.log(error))
   }, [])
+
+  const movieClicked = (movie) =>{
+    props.navigation.navigate("Detail", {movie: movie})
+  }
 
   return (
     <View style={styles.container}>
@@ -27,9 +31,11 @@ function MovieList() {
       <FlatList 
         data={movies}
         renderItem={({item}) => (
+          <TouchableOpacity onPress={() => movieClicked(item)}>
             <View style={styles.item}>
               <Text key={item.id} style={styles.itemTitle}>{item.title}</Text>
             </View>
+          </TouchableOpacity>
         )}
         // providing another property for the flatlist.
         // specifying what would be the item id for the item.
