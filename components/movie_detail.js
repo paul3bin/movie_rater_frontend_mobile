@@ -20,6 +20,9 @@ function MovieDetail(props) {
               <FontAwesomeIcon icon={ faStar } style={movie.average_rating>4 ? styles.avg_rating : styles.avg_rating_null} size={ 25 }/>
               <Text style={styles.avg_rating_null}>({movie.number_of_ratings})</Text>
             </View>
+
+            <View style={{borderTopColor: 'white', borderTopWidth: 2, paddingTop: 8}} />
+            <Text style={styles.avg_rating_null}>Rate It!</Text>
         </View>
     );
 }
@@ -57,6 +60,7 @@ const styles = StyleSheet.create({
   iconContainer: {
     flexDirection: 'row',
     paddingTop: 10,
+    paddingBottom: 8
   },
   avg_rating: {
     color: '#FFA500',
