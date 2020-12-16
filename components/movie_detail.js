@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
@@ -9,9 +9,9 @@ function MovieDetail(props) {
     
     return (
         <View style={styles.container}>
-            <Text style={styles.fontdetails}>{movie.title}</Text>
-            <Text style={styles.fontdetails}>{movie.genre}</Text>
-            <Text style={styles.fontdetails}>{movie.description}</Text>
+            <Text style={styles.titleFont}>{movie.title}</Text>
+            <Text style={styles.genreFont}>{movie.genre}</Text>
+            <Text style={styles.descriptionFont}>{movie.description}</Text>
             <View style={styles.iconContainer}>
               <FontAwesomeIcon icon={ faStar } style={movie.average_rating>0 ? styles.avg_rating : styles.avg_rating_null} size={ 25 }/>
               <FontAwesomeIcon icon={ faStar } style={movie.average_rating>1 ? styles.avg_rating : styles.avg_rating_null} size={ 25 }/>
@@ -24,16 +24,35 @@ function MovieDetail(props) {
     );
 }
 
+// This type of navigation styling is for function based components
+MovieDetail.navigationOptions = screenProps => ({
+  title: screenProps.navigation.getParam('title'),
+  headerStyle: {
+    backgroundColor: 'orange'
+  },
+  headerTintColor: '#fff',
+  headerRight: () => <Button title='Edit' color='orange' 
+    onPress={() => screenProps.navigation.navigate("Edit", {movie: screenProps.navigation.getParam('movie'), title: screenProps.navigation.getParam('title')})}/>
+});
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#282C35',
-    alignItems: 'center',
-    justifyContent: 'center'
+    padding: 13,
   },
-  fontdetails: {
+  descriptionFont: {
+    color: '#ffcccc',
+    fontSize: 20,
+    paddingTop: 7
+  },
+  genreFont: {
+    color: '#ffccee',
+    fontSize: 13,
+  },
+  titleFont: {
     color: 'white',
-    fontSize: 25,
+    fontSize: 35,
   },
   iconContainer: {
     flexDirection: 'row',
@@ -46,7 +65,7 @@ const styles = StyleSheet.create({
   avg_rating_null: {
     color: 'white',
     fontSize: 25,
-  }
+  },
 });
 
 export { MovieDetail };

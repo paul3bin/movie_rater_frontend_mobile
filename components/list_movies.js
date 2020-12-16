@@ -17,17 +17,11 @@ function MovieList(props) {
   }, [])
 
   const movieClicked = (movie) =>{
-    props.navigation.navigate("Detail", {movie: movie})
+    props.navigation.navigate("Detail", {movie: movie, title: movie.title})
   }
 
   return (
     <View style={styles.container}>
-
-      <View style={styles.headerBar}>
-        <FontAwesomeIcon icon={ faFilm } style={styles.headerIcon} size={ 28 }/>
-        <Text style={styles.headerTitle}>Movie Rater</Text>
-      </View>
-
       <FlatList 
         data={movies}
         renderItem={({item}) => (
@@ -45,6 +39,17 @@ function MovieList(props) {
     </View>
   );
 }
+
+MovieList.navigationOptions = screenProps => ({
+  title: 
+    <View style={styles.headerBar}>
+      <FontAwesomeIcon icon={ faFilm } style={styles.headerIcon}/>
+      <Text style={styles.headerTitle}>Movie Rater</Text>
+    </View>,
+  headerStyle: {
+    backgroundColor: 'orange',
+  },
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -64,21 +69,19 @@ const styles = StyleSheet.create({
     fontSize: 24, 
   },
   headerBar: {
-    flex: 0.25,
-    backgroundColor: '#282C35',
-    color: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row'
   },
   headerTitle: {
-    color: '#FFA500',
-    fontSize: 40,
+    fontSize: 20,
+    color: 'white'
   },
   headerIcon: {
-    color: 'coral',
     transform: [{rotateZ: '-20deg'}],
-    paddingHorizontal: 19,
+    paddingHorizontal: 13,
+    fontSize: 20,
+    color: 'white'
   }
 });
 
