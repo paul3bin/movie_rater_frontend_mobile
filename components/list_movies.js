@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faFilm } from '@fortawesome/free-solid-svg-icons'
+import { StyleSheet, Text, View, FlatList, Button } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faFilm } from '@fortawesome/free-solid-svg-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { API } from '../api_service'
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -9,15 +10,32 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 function MovieList(props) {
   
   const [movies, setMovies] = useState([]);
+
+  let token = null;
+
+  const getToken = async () =>{
+    token = await AsyncStorage.getItem('token')
+    if (token){
+      fetchMovies();
+    } 
+    else{
+      props.navigation.navigate('Authentication')
+    }
+  }
   
   useEffect(() => {
-    API.getMovies('77903b7a33ad265d3d2cc903e74e423bb19eae22')
+    getToken();
+  },[])
+
+  const fetchMovies = () => {
+    console.log(token)
+    API.getMovies(token)
     .then(resp => setMovies(resp))
     .catch(error => console.log(error))
-  }, [])
+  }
 
   const movieClicked = (movie) =>{
-    props.navigation.navigate("Detail", {movie: movie, title: movie.title})
+    props.navigation.navigate("Detail", {movie: movie, title: movie.title, token: token})
   }
 
   return (
@@ -49,6 +67,8 @@ MovieList.navigationOptions = screenProps => ({
   headerStyle: {
     backgroundColor: 'orange',
   },
+  headerRight: () => <Button title='Add Movie' color='orange' 
+    onPress={() => screenProps.navigation.navigate("Edit", {movie: {title: '', genre: '', description: ''}, token: screenProps.navigation.getParam('token')})}/>
 });
 
 const styles = StyleSheet.create({
