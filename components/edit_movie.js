@@ -61,8 +61,8 @@ function EditMovie(props) {
 const removeClicked = (props) =>{
     const movie = props.navigation.getParam('movie')
     console.log(movie)
-    API.deleteMovie(props.token, movie.id)
-        .then(resp => props.navigation.navigate("List"))
+    API.deleteMovie(props.navigation.getParam('token'), movie.id).catch(error => console.log(error))
+    props.navigation.navigate("List")
 }
 
 // This type of navigation styling is for function based components
@@ -72,8 +72,7 @@ EditMovie.navigationOptions = screenProps => ({
     backgroundColor: 'orange'
   },
   headerTintColor: '#fff',
-  headerRight: () => <Button title='Remove Movie' color='orange' 
-    onPress={() => removeClicked(screenProps)}/>
+  headerRight: () => <Button title='Remove Movie' color='orange' onPress={() => removeClicked(screenProps)}/>
 });
 
 const styles = StyleSheet.create({
