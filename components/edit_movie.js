@@ -3,11 +3,12 @@ import React, { useState } from 'react';
 
 import { API } from '../api_service'
 
+// const token = '77903b7a33ad265d3d2cc903e74e423bb19eae22';
+
 function EditMovie(props) {  
-    
-    const token = '77903b7a33ad265d3d2cc903e74e423bb19eae22';
 
     const movie = props.navigation.getParam('movie', null)
+    const token = props.navigation.getParam('token', '')
 
     const [title, setTitle] = useState(movie.title);
     const [genre, setGenre] = useState(movie.genre);
@@ -15,10 +16,17 @@ function EditMovie(props) {
 
     // editing the movie, saving the changes and bringing back the changes to the previous screen to display
     const saveMovie = () => {
-        API.editMovie(token, movie.id, {title: title, genre: genre, description: description})
-            .then(movie => props.navigation.navigate("Detail", {movie: movie, title: movie.title}))
-            .catch(error => console.log(error))
-        props.navigation.goBack();
+        if(movie.id){
+            API.editMovie(token, movie.id, {title: title, genre: genre, description: description})
+                .then(movie => props.navigation.navigate("Detail", {movie: movie, title: movie.title}))
+                .catch(error => console.log(error))
+            props.navigation.goBack();
+        }
+        else{
+            API.addMovie(token, {title: title, genre: genre, description: description})
+                .then(movie => props.navigation.navigate("List"))
+                .catch(error => console.log(error))
+        }
     }
     
     return (
@@ -45,18 +53,27 @@ function EditMovie(props) {
                 value = {description}
             />
 
-            <Button onPress={() => saveMovie()} title="Save"/> 
+            <Button onPress={() => saveMovie()} title={movie.id ? "Save": "Add"}/> 
         </View>
     );
 }
 
+const removeClicked = (props) =>{
+    const movie = props.navigation.getParam('movie')
+    console.log(movie)
+    API.deleteMovie(props.token, movie.id)
+        .then(resp => props.navigation.navigate("List"))
+}
+
 // This type of navigation styling is for function based components
 EditMovie.navigationOptions = screenProps => ({
-  title: screenProps.navigation.getParam('title'),
+  title: screenProps.navigation.getParam('title') ? screenProps.navigation.getParam('title'): "Add Movie",
   headerStyle: {
     backgroundColor: 'orange'
   },
   headerTintColor: '#fff',
+  headerRight: () => <Button title='Remove Movie' color='orange' 
+    onPress={() => removeClicked(screenProps)}/>
 });
 
 const styles = StyleSheet.create({
