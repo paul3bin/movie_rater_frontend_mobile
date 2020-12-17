@@ -6,8 +6,6 @@ import { faStar } from '@fortawesome/free-solid-svg-icons'
 import {API} from '../api_service'
 
 function MovieDetail(props) {
-  
-  // const token = '77903b7a33ad265d3d2cc903e74e423bb19eae22';
 
   const movie = props.navigation.getParam('movie', null)
   const token = props.navigation.getParam('token', '')
