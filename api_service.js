@@ -41,4 +41,44 @@ export class API{
         ).then(resp => resp.json())
     }
 
+    static addMovie(token, body){
+        return fetch(
+            `http://192.168.0.106:8000/api/movies/`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${token}`
+                },
+                body: JSON.stringify(body)
+            }
+        ).then(resp => resp.json())
+    }
+
+    static deleteMovie(token, movie_id){
+        return fetch(
+            `http://192.168.0.106:8000/api/movies/${movie_id}/`,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${token}`
+                }
+            }
+        ).then(resp => resp.json())
+    }
+
+    static userLogin(body){
+        return fetch(
+            `http://192.168.0.106:8000/auth/`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            }
+        ).then(resp => resp.json())
+    }
+
 }
