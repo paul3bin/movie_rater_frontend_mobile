@@ -3,8 +3,6 @@ import React, { useState } from 'react';
 
 import { API } from '../api_service'
 
-// const token = '77903b7a33ad265d3d2cc903e74e423bb19eae22';
-
 function EditMovie(props) {  
 
     const movie = props.navigation.getParam('movie', null)
