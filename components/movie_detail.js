@@ -7,13 +7,15 @@ import {API} from '../api_service'
 
 function MovieDetail(props) {
   
-  const token = '77903b7a33ad265d3d2cc903e74e423bb19eae22';
+  // const token = '77903b7a33ad265d3d2cc903e74e423bb19eae22';
 
   const movie = props.navigation.getParam('movie', null)
+  const token = props.navigation.getParam('token', '')
   
   const [rating, setRating] = useState(0);
 
   const rateClicked = () => {
+    console.log(token)
     if (rating>0 && rating<6){
       API.rateMovie(token, movie.id, rating)
       .then(resp => {
@@ -61,7 +63,8 @@ MovieDetail.navigationOptions = screenProps => ({
   },
   headerTintColor: '#fff',
   headerRight: () => <Button title='Edit' color='orange' 
-    onPress={() => screenProps.navigation.navigate("Edit", {movie: screenProps.navigation.getParam('movie'), title: screenProps.navigation.getParam('title')})}/>
+    onPress={() => screenProps.navigation.navigate("Edit", {movie: screenProps.navigation.getParam('movie'), 
+      title: screenProps.navigation.getParam('title'), token: screenProps.navigation.getParam('token')})}/>
 });
 
 const styles = StyleSheet.create({
