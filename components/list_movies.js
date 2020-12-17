@@ -7,11 +7,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { API } from '../api_service'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+let token = null;
+
 function MovieList(props) {
   
   const [movies, setMovies] = useState([]);
-
-  let token = null;
 
   const getToken = async () =>{
     token = await AsyncStorage.getItem('token')
@@ -68,7 +68,7 @@ MovieList.navigationOptions = screenProps => ({
     backgroundColor: 'orange',
   },
   headerRight: () => <Button title='Add Movie' color='orange' 
-    onPress={() => screenProps.navigation.navigate("Edit", {movie: {title: '', genre: '', description: ''}, token: screenProps.navigation.getParam('token')})}/>
+    onPress={() => screenProps.navigation.navigate("Edit", {movie: {title: '', genre: '', description: ''}, token: token})}/>
 });
 
 const styles = StyleSheet.create({
