@@ -53,7 +53,9 @@ function MovieList(props) {
         // specifying what would be the item id for the item.
         keyExtractor={(item, index) => index.toString()}
       />
-
+      <Button title='Add Movie' color='orange' 
+        onPress={() => props.navigation.navigate("Edit", {movie: {title: '', genre: '', description: ''}, 
+        token: token})}/>
     </View>
   );
 }
@@ -67,8 +69,8 @@ MovieList.navigationOptions = screenProps => ({
   headerStyle: {
     backgroundColor: 'orange',
   },
-  headerRight: () => <Button title='Add Movie' color='orange' 
-    onPress={() => screenProps.navigation.navigate("Edit", {movie: {title: '', genre: '', description: ''}, token: token})}/>
+  headerRight: () => <Button title='Logout' color='orange' 
+    onPress={async () => AsyncStorage.removeItem('token'), token=null,() => screenProps.navigation.navigate("Authentication")}/>,
 });
 
 const styles = StyleSheet.create({
